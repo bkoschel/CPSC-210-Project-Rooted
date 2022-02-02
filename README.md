@@ -17,7 +17,7 @@ of their houseplants.
 - schedule dates of when plants were watered and need to be watered
 - send reminders when plants need to be watered
 
-## Who is *Rooted for?
+## Who is *Rooted* for?
 **Rooted** is made for people who love their houseplants
 and want to see them grow. It is also for people who
 love having plants in their house but struggle to keep them alive.
