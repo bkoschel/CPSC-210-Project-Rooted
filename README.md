@@ -13,9 +13,7 @@ of their houseplants.
   - add the type of plant
   - add plant growth requirements: sunlight, temperature
     humidity, soil type and water
-- add where a given plant is located
-- schedule dates of when plants were watered and need to be watered
-- send reminders when plants need to be watered
+- a
 
 ## Who is *Rooted* for?
 **Rooted** is made for people who love their houseplants
@@ -31,19 +29,18 @@ With a busy schedule it is easy to forget to water my plants.
 
 - As a user, I want to be able to add a plant to my collection
   - add the plants name, date acquired, type of plant, pet friendly or not,
-    sunlight requirement, water requirement, soil requirements, humidity requirments
+    sunlight requirement, water requirement, soil requirements, humidity requirements
   - add where the plant is located: bedroom, bathroom, living room
   - add a plants height and width in cm
   - add the status of the plant: growing, maintaining size, dying, diseased
 - As a user, I want to be able to change the location of my plant
-- As a user, I want to be able to add a new image of the plant
 - As a user, I want to be able to update the status of my plant
 - As a user, I want to be able to update the height and width of my plant
 - As a user, I want to be able to remove a plant from my collection
 - As a user, I want to be able to view a list of the plants by their names
-- As a user, I want to be able to view a list of the plants by their images
-- As a user, I want to be able to view a list of the plants by their location
+- As a user, I want to be able to view plants that have been watered
+- As a user, I want to be able to view plants that have not been watered
+- As a user, I want to be able to check off that a plant has been watered
+  - move it from the list of not watered plants to watered plants.
 - As a user, I want to be able to select a plant from my collection and view its properties
-- As a user, I want to be able to view the progress of my plant
-  - view the change in height and width
-  - view the initial image and the image of the plant now
+- As a user, I want to be able to view the status of the plant
