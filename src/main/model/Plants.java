@@ -27,4 +27,21 @@ public class Plants {
     public int getNumberOfPlantsInCollection() {
         return myPlantCollection.size();
     }
+
+    public String getListOfPlantNames() {
+        String plants = "";
+        for (int i = 0; i < getNumberOfPlantsInCollection(); i++) {
+            plants += "Plant Number " + (i + 1) + ": " + myPlantCollection.get(i).getPlantName()
+                    + "\n";
+        }
+        return plants; // stub
+    }
+
+    public Plant getPlant(int i) throws IndexOutOfBoundsException {
+        if (myPlantCollection.get(i) != null) {
+            return testPlant = myPlantCollection.get(i);
+        }
+        throw new IndexOutOfBoundsException("There are not that many plants in this list");
+    }
+
 }

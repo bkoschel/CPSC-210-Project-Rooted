@@ -49,6 +49,8 @@ public class PlantsTest {
         assertTrue(testPlants1.containsPlant(testPlant1));
         testPlants1.removePlant(testPlant1);
         assertFalse(testPlants1.containsPlant(testPlant1));
+        testPlants1.removePlant(testPlant1);
+        assertFalse(testPlants1.containsPlant(testPlant1));
 
     }
 
@@ -60,4 +62,24 @@ public class PlantsTest {
         assertEquals(2, testPlants1.getNumberOfPlantsInCollection());
         assertEquals(0, testPlants2.getNumberOfPlantsInCollection());
     }
+
+    @Test
+    public void testGetListOfPlantNames() {
+        testPlants1.addPlant(testPlant1);
+        assertEquals("Plant Number 1: Goldie\n", testPlants1.getListOfPlantNames());
+        testPlants1.addPlant(testPlant2);
+        assertEquals("Plant Number 1: Goldie\n"
+                           + "Plant Number 2: Vinny\n", testPlants1.getListOfPlantNames());
+    }
+
+
+    @Test
+    public void testGetPlant() {
+        testPlants1.addPlant(testPlant1);
+        testPlants1.addPlant(testPlant2);
+        assertEquals(testPlant1, testPlants1.getPlant(0));
+        assertEquals(testPlant2, testPlants1.getPlant(1));
+    }
+
+
 }
