@@ -6,75 +6,54 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlantTest {
-    private Plant testPlant;
+    private Plant testPlant1;
+    private Plant testPlant2;
 
     @BeforeEach
     void setUp() {
-        testPlant = new Plant("Goldie", "Golden Pothos", "Growing", 5);
+        testPlant1 = new Plant("Goldie", "Golden Pothos", "Growing", 5);
+        testPlant2 = new Plant("Vinny", "English Ivy", "Maintaining", 7);
     }
 
     @Test
     void testConstructor() {
-        assertEquals("Goldie", testPlant.getPlantName());
-        assertEquals("Golden Pothos", testPlant.getPlantType());
-        assertEquals("Growing", testPlant.getPlantStatus());
-        assertEquals(5, testPlant.getPlantWater());
+        assertEquals("Goldie", testPlant1.getPlantName());
+        assertEquals("Golden Pothos", testPlant1.getPlantType());
+        assertEquals("Growing", testPlant1.getPlantStatus());
+        assertEquals(5, testPlant1.getPlantWater());
+
+        assertEquals("Vinny", testPlant2.getPlantName());
+        assertEquals("English Ivy", testPlant2.getPlantType());
+        assertEquals("Maintaining", testPlant2.getPlantStatus());
+        assertEquals(7, testPlant2.getPlantWater());
     }
 
-    @Test
-    void testConstructorNoPlantType() {
-        testPlant = new Plant("Manu-o-ku", "", "Growing", 1);
-        assertEquals("Manu-o-ku", testPlant.getPlantName());
-        assertEquals("Unknown Type", testPlant.getPlantType());
-        assertEquals("Growing", testPlant.getPlantStatus());
-        assertEquals(1, testPlant.getPlantWater());
-    }
 
-    @Test
-    void testConstructorNoWaterData() {
-
-    }
 
     @Test
     void testChangePlantName() {
-        testPlant = new Plant("Little", "Cactus", "Growing", 1);
-        assertEquals("Little", testPlant.getPlantName());
-        testPlant.changeName("Biggie");
-        assertEquals("Biggie", testPlant.getPlantName());
+        testPlant2.setName("Andy");
+        assertEquals("Andy", testPlant2.getPlantName());
+        testPlant2.setName("Vinny");
+        assertEquals("Vinny", testPlant2.getPlantName());
     }
 
     @Test
     void testChangePlantStatus() {
-        testPlant = new Plant("Little", "Cactus", "Growing", 1);
-        assertEquals("Growing", testPlant.getPlantStatus());
-        testPlant.changeStatus("Maintaining");
-        assertEquals("Maintaining", testPlant.getPlantStatus());
-        testPlant.changeStatus("Dying");
-        assertEquals("Dying", testPlant.getPlantStatus());
-        testPlant.changeStatus("Growing");
-        assertEquals("Growing", testPlant.getPlantStatus());
+        assertEquals("Growing", testPlant1.getPlantStatus());
+        testPlant1.setStatus("Maintaining");
+        assertEquals("Maintaining", testPlant1.getPlantStatus());
+        testPlant1.setStatus("Dying");
+        assertEquals("Dying", testPlant1.getPlantStatus());
+        testPlant1.setStatus("Growing");
+        assertEquals("Growing", testPlant1.getPlantStatus());
     }
 
-    @Test
-    void testNoChangeInWaterFrequency() {
-        testPlant = new Plant("Little", "Cactus", "Growing", 1);
-        assertEquals(1, testPlant.getPlantWater());
-    }
-
-    @Test
-    void testIncreaseInWaterFrequency() {
-
-    }
-
-    @Test
-    void testDecreaseInWaterFrequency() {
-
-    }
 
 
     @Test
     void testToString() {
-        assertTrue(testPlant.toString().contains("Plant Name: Goldie"
+        assertTrue(testPlant1.toString().contains("Plant Name: Goldie"
                                             + "\n Plant Type: Golden Pothos"
                                             + "\n Plant Status: Growing"
                                             + "\n Plant Water: 5"));
