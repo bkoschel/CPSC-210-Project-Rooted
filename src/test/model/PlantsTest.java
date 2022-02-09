@@ -65,6 +65,7 @@ public class PlantsTest {
 
     @Test
     public void testGetListOfPlantNames() {
+        assertEquals("", testPlants1.getListOfPlantNames());
         testPlants1.addPlant(testPlant1);
         assertEquals("Plant Number 1: Goldie\n", testPlants1.getListOfPlantNames());
         testPlants1.addPlant(testPlant2);
@@ -80,6 +81,15 @@ public class PlantsTest {
         assertEquals(testPlant1, testPlants1.getPlant(0));
         assertEquals(testPlant2, testPlants1.getPlant(1));
     }
+
+    @Test
+    public void testExceptionThrown() {
+        Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> {
+            testPlants1.getPlant(2);
+        });
+
+    }
+
 
 
 }
