@@ -82,13 +82,7 @@ public class PlantsTest {
         assertEquals(testPlant2, testPlants1.getPlant(1));
     }
 
-    @Test
-    public void testExceptionThrown() {
-        Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> {
-            testPlants1.getPlant(2);
-        });
 
-    }
 
 
 

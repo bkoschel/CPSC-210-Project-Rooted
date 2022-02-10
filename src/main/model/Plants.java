@@ -38,9 +38,6 @@ public class Plants {
     }
 
     public Plant getPlant(int i) throws IndexOutOfBoundsException {
-        if (myPlantCollection.get(i) == null) {
-            throw new IndexOutOfBoundsException("There are not that many plants in this list");
-        }
         return testPlant = myPlantCollection.get(i);
 
     }
