@@ -44,12 +44,10 @@ public class PlantsTest {
         testPlants1.addPlant(testPlant2);
         assertTrue(testPlants1.containsPlant(testPlant1));
         assertTrue(testPlants1.containsPlant(testPlant2));
-        testPlants1.removePlant(testPlant2);
+        testPlants1.removePlant(1);
         assertFalse(testPlants1.containsPlant(testPlant2));
         assertTrue(testPlants1.containsPlant(testPlant1));
-        testPlants1.removePlant(testPlant1);
-        assertFalse(testPlants1.containsPlant(testPlant1));
-        testPlants1.removePlant(testPlant1);
+        testPlants1.removePlant(0);
         assertFalse(testPlants1.containsPlant(testPlant1));
 
     }

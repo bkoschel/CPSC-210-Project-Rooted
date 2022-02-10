@@ -8,7 +8,8 @@ import java.util.Scanner;
 // Plant organizer application
 public class PlantApp {
     private Plant plant;
-    private Plant userPlantInput;
+    private Plant user;
+    private int userPlantInput;
     private Plants myPlants;
     private Scanner input;
     private boolean exit;
@@ -45,7 +46,7 @@ public class PlantApp {
         } else if (command.equals("2")) {
             addNewPlant();
         } else if (command.equals("3")) {
-            removeYourPlant(userPlantInput);
+            removeYourPlant();
         } else if (command.equals("4")) {
             exit = false;
         } else {
@@ -53,7 +54,16 @@ public class PlantApp {
         }
     }
 
-    private void removeYourPlant(Plant userPlant) {
+    private void removeYourPlant() {
+        int position;
+
+        System.out.println("Which plant would you like to remove?\n"
+                + "Please enter name of the plant");
+
+        position = input.nextInt();
+
+        myPlants.removePlant(position);
+
     }
 
     private void addNewPlant() {
@@ -75,14 +85,13 @@ public class PlantApp {
                 + "(Cannot be more than 7 times per week): ");
         water = input.nextInt();
 
-        userPlantInput = createPlant(name, type, status, water);
-        checkPlantCollection(userPlantInput);
+        user = createPlant(name, type, status, water);
+
     }
 
 
 
-    private void checkPlantCollection(Plant userPlantInput) {
-    }
+
 
     private Plant createPlant(String name, String type, String status, int water) {
         plant = new Plant(name, type, status, water);

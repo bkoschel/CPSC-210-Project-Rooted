@@ -18,10 +18,8 @@ public class Plants {
         return myPlantCollection.contains(plant);
     }
 
-    public void removePlant(Plant plant) {
-        if (containsPlant(plant)) {
-            myPlantCollection.remove(plant);
-        }
+    public void removePlant(int positionInList) {
+        myPlantCollection.remove(positionInList);
     }
 
     public int getNumberOfPlantsInCollection() {
