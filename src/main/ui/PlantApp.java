@@ -9,7 +9,6 @@ import java.util.Scanner;
 public class PlantApp {
     private Plant plant;
     private Plant user;
-    private int userPlantInput;
     private Plants myPlants;
     private Scanner input;
     private boolean exit;
@@ -48,21 +47,47 @@ public class PlantApp {
         } else if (command.equals("3")) {
             removeYourPlant();
         } else if (command.equals("4")) {
+            changePlantStatus();
+        } else if (command.equals("5")) {
+            waterPlant();
+        } else if (command.equals("6")) {
             exit = false;
         } else {
             System.out.println("Selection invalid");
         }
     }
 
+    private void waterPlant() {
+    }
+
+    private void changePlantStatus() {
+        String status;
+        int number;
+        Plant plant;
+
+        System.out.println("Which plant would you like to change the status of?\n"
+                            + "Please enter the number associated with your plant");
+        number = input.nextInt();
+        number = number - 1;
+
+        System.out.println("Is your plant now growing, staying the same or dying?\n"
+                            + "Please input your plants new status");
+        status = input.next();
+
+        plant = myPlants.getPlant(number);
+        plant.setStatus(status);
+
+    }
+
     private void removeYourPlant() {
         int position;
 
         System.out.println("Which plant would you like to remove?\n"
-                + "Please enter name of the plant");
+                + "Please enter the number associated with the plant you want to remove: ");
 
         position = input.nextInt();
 
-        myPlants.removePlant(position);
+        myPlants.removePlant(position - 1);
 
     }
 
@@ -101,7 +126,7 @@ public class PlantApp {
 
     private void displayPlants() {
         System.out.println("You currently have " + myPlants.getNumberOfPlantsInCollection()
-                            + " in your collection\n");
+                            + " plants in your collection\n");
         if (myPlants.getNumberOfPlantsInCollection() == 0) {
             System.out.println("Oh no! You have 0 plants in your collection\n"
                                 + "Let's add a plant!\n");
@@ -153,7 +178,9 @@ public class PlantApp {
         System.out.println("\t1 - View house plant collection");
         System.out.println("\t2 - Add new plant");
         System.out.println("\t3 - Remove a plant from the collection");
-        System.out.println("\t4 - Exit Rooted");
+        System.out.println("\t4 - Change Plant Status");
+        System.out.println("\t5 - Water Plant");
+        System.out.println("\t6 - Exit Application");
     }
 
 }
