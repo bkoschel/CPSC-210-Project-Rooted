@@ -53,7 +53,7 @@ public class Plant {
 
 
 
-
+    @Override
     public String toString() {
         String waterStr = Integer.toString(waterPerWeek);
         return "Plant Name: " + plantName
