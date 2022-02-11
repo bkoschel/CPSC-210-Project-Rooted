@@ -15,8 +15,10 @@ public class PlantsTest {
     void setUp() {
         testPlants1 = new Plants();
         testPlants2 = new Plants();
-        testPlant1 = new Plant("Goldie", "Golden Pothos", "Growing", 5);
-        testPlant2 = new Plant("Vinny", "English Ivy", "Maintaining", 7);
+        testPlant1 = new Plant("Goldie", "Golden Pothos", "Growing",
+                5, false);
+        testPlant2 = new Plant("Vinny", "English Ivy", "Maintaining",
+                7, true);
     }
 
     @Test

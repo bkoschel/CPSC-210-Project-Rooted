@@ -11,8 +11,8 @@ class PlantTest {
 
     @BeforeEach
     void setUp() {
-        testPlant1 = new Plant("Goldie", "Golden Pothos", "Growing", 5);
-        testPlant2 = new Plant("Vinny", "English Ivy", "Maintaining", 7);
+        testPlant1 = new Plant("Goldie", "Golden Pothos", "Growing", 5, false);
+        testPlant2 = new Plant("Vinny", "English Ivy", "Maintaining", 7, true);
     }
 
     @Test
@@ -21,11 +21,13 @@ class PlantTest {
         assertEquals("Golden Pothos", testPlant1.getPlantType());
         assertEquals("Growing", testPlant1.getPlantStatus());
         assertEquals(5, testPlant1.getPlantWater());
+        assertFalse(testPlant1.getWatered());
 
         assertEquals("Vinny", testPlant2.getPlantName());
         assertEquals("English Ivy", testPlant2.getPlantType());
         assertEquals("Maintaining", testPlant2.getPlantStatus());
         assertEquals(7, testPlant2.getPlantWater());
+        assertTrue(testPlant2.getWatered());
     }
 
 
@@ -49,6 +51,19 @@ class PlantTest {
         assertEquals("Growing", testPlant1.getPlantStatus());
     }
 
+    @Test
+    void testCheckIfPlantIsWatered() {
+        assertFalse(testPlant1.getWatered());
+        assertTrue(testPlant2.getWatered());
+    }
+
+    @Test
+    void testWaterPlant() {
+        testPlant1.setWatered(true);
+        assertTrue(testPlant1.getWatered());
+        testPlant2.setWatered(false);
+        assertFalse(testPlant2.getWatered());
+    }
 
 
     @Test

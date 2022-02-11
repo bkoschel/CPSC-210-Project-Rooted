@@ -5,21 +5,26 @@ import model.Plants;
 
 import java.util.Scanner;
 
-// Plant organizer application
+// An app to help keep track of your plants and keep them healthy
+// PlantApp was inspired by the TellerApp provided in CPSC 210
+// GitHub Link: https://github.students.cs.ubc.ca/CPSC210/TellerAppRobust.git
 public class PlantApp {
-    private Plant plant;
-    private Plant user;
     private Plants myPlants;
     private Scanner input;
     private boolean exit;
 
+    // EFFECTS: runs the Plant App
     PlantApp() {
         runPlantApp();
     }
 
+
+    // runPlantApp was inspired by the code from the TellerApp linked above
+    // EFFECTS: Welcomes user, processes user input and leaves a message when application
+    // is exited
     private void runPlantApp() {
         exit = true;
-        String command = null;
+        String command;
         input = new Scanner(System.in);
         System.out.println("Welcome to Rooted!");
 
@@ -35,10 +40,16 @@ public class PlantApp {
         System.out.println("Goodbye!");
     }
 
+    // MODIFIES: this
+    // EFFECTS: initializes the list of plants
+    // code inspired by TellerApp init() method
     private void init() {
         myPlants = new Plants();
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user input
+    // method inspired by TellerApp processCommand method
     private void processInput(String command) {
         if (command.equals("1")) {
             displayPlants();
@@ -49,7 +60,7 @@ public class PlantApp {
         } else if (command.equals("4")) {
             changePlantStatus();
         } else if (command.equals("5")) {
-            waterPlant();
+            waterPlants();
         } else if (command.equals("6")) {
             exit = false;
         } else {
@@ -57,9 +68,56 @@ public class PlantApp {
         }
     }
 
-    private void waterPlant() {
+    // MODIFIES: this
+    // EFFECTS: lets the user choose a plant to water based off the plant's position
+    // in the list; if the plant is watered it congratulates the user; if the user has
+    // not watered the plant it asks them if they would like to water the plant;
+    // directs the user to the method to water their plant
+    private void waterPlants() {
+        String user;
+        int number;
+        Plant plant;
+
+        System.out.println("Enter the plant number of the plant you wish to water:\n");
+        number = input.nextInt();
+        number = number - 1;
+        plant = myPlants.getPlant(number);
+
+        System.out.println("Have you watered your plant today (Y/N)?\n");
+        user = input.next();
+        user.toLowerCase();
+
+
+        if (user.equals("y")) {
+            System.out.println("Yay! Your plant thanks you!");
+        } else if (user.equals("n")) {
+            System.out.println("Would you like to water your plant? (Y/N)\n");
+            waterPlant(plant);
+        }
     }
 
+    // MODIFIES: this
+    // EFFECTS: waters not watered plant selected by the user
+    //          if plant is not watered it warns the user
+    private void waterPlant(Plant plant) {
+        String user;
+        user = input.next();
+        user.toLowerCase();
+
+        if (user.equals("y")) {
+            System.out.println("Yay! Your plant thanks you!");
+            plant.setWatered(true);
+        } else if (user.equals("n")) {
+            System.out.println("Your plant might be struggling\n");
+            plant.setWatered(false);
+        }
+
+    }
+
+    // REQUIRES: there must be at least one plant item in the list of plants
+    // MODIFIES: this
+    // EFFECTS: prompts the user to change the status of their plant
+    //          used if the plant goes from healthy to dying or vice versa
     private void changePlantStatus() {
         String status;
         int number;
@@ -79,23 +137,32 @@ public class PlantApp {
 
     }
 
+    // REQUIRES: there must be at least one plant item in the list of plants
+    // MODIFIES: this
+    // EFFECTS: prompts the user to choose a plant at a given location in the list
+    //          to be removed; removes plant
     private void removeYourPlant() {
         int position;
-
         System.out.println("Which plant would you like to remove?\n"
                 + "Please enter the number associated with the plant you want to remove: ");
-
         position = input.nextInt();
-
         myPlants.removePlant(position - 1);
 
     }
 
+    // REQUIRES: user must input a single word string for the name and type of plant;
+    //           the status must be healthy, ok or dead;
+    //           water must be an integer less than or equal to 7;
+    //           watered must be true or false
+    // MODIFIES: this
+    // EFFECTS: creates a new plant when user answers the prompt questions;
+    //          the new plant is added to the list of plants
     private void addNewPlant() {
         String name;
         String type;
         String status;
         int water;
+        boolean watered;
 
         System.out.println("Please enter information about your plant:\n");
         System.out.println("What is the name of your Plant?: ");
@@ -109,21 +176,24 @@ public class PlantApp {
         System.out.println("How many times your plant needs to be watered per week\n"
                 + "(Cannot be more than 7 times per week): ");
         water = input.nextInt();
+        System.out.println("Have you watered yor plant today?\n" + "Enter true or false");
+        watered = input.hasNext();
 
-        user = createPlant(name, type, status, water);
+        Plant user = createPlant(name, type, status, water, watered);
 
     }
 
-
-
-
-
-    private Plant createPlant(String name, String type, String status, int water) {
-        plant = new Plant(name, type, status, water);
+    // MODIFIES: this
+    // EFFECTS: creates a new plant upon initialization of the program and adds the
+    //          plant to the list
+    private Plant createPlant(String name, String type, String status, int water, boolean watered) {
+        Plant plant = new Plant(name, type, status, water, watered);
         myPlants.addPlant(plant);
         return plant;
     }
 
+    // MODIFIES:
+    // EFFECTS:
     private void displayPlants() {
         System.out.println("You currently have " + myPlants.getNumberOfPlantsInCollection()
                             + " plants in your collection\n");
@@ -172,7 +242,8 @@ public class PlantApp {
 
     }
 
-
+    // EFFECTS: displays menu of options to choose from to the user
+    // code inspired by TellerApp displayMenuMethod
     private void displayMenu() {
         System.out.println("\nSelect an option: ");
         System.out.println("\t1 - View house plant collection");
