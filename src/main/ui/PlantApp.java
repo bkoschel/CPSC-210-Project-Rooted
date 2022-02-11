@@ -68,11 +68,13 @@ public class PlantApp {
         }
     }
 
+    // REQUIRES: there must be at least one plant item in the list of plants;
+    //           second input must be a Y or N
     // MODIFIES: this
     // EFFECTS: lets the user choose a plant to water based off the plant's position
-    // in the list; if the plant is watered it congratulates the user; if the user has
-    // not watered the plant it asks them if they would like to water the plant;
-    // directs the user to the method to water their plant
+    //          in the list; if the plant is watered it congratulates the user; if the user has
+    //          not watered the plant it asks them if they would like to water the plant;
+    //          directs the user to the method to water their plant
     private void waterPlants() {
         String user;
         int number;
@@ -96,6 +98,8 @@ public class PlantApp {
         }
     }
 
+    // REQUIRES: there must be at least one plant item in the list of plants
+    //           input must be Y or N
     // MODIFIES: this
     // EFFECTS: waters not watered plant selected by the user
     //          if plant is not watered it warns the user
@@ -177,7 +181,7 @@ public class PlantApp {
                 + "(Cannot be more than 7 times per week): ");
         water = input.nextInt();
         System.out.println("Have you watered yor plant today?\n" + "Enter true or false");
-        watered = input.hasNext();
+        watered = input.nextBoolean();
 
         Plant user = createPlant(name, type, status, water, watered);
 
@@ -192,8 +196,10 @@ public class PlantApp {
         return plant;
     }
 
-    // MODIFIES:
-    // EFFECTS:
+
+    // EFFECTS: displays the number of plants in the collection;
+    //          if there are zero plants it suggests adding a plant;
+    //          otherwise displays a plant
     private void displayPlants() {
         System.out.println("You currently have " + myPlants.getNumberOfPlantsInCollection()
                             + " plants in your collection\n");
@@ -206,11 +212,15 @@ public class PlantApp {
         viewPlant();
     }
 
+    // EFFECTS: prompts the user if they would like the details of a plant entry
     private void viewPlant() {
         System.out.println("Would you like to view the details of a plant? (Y/N)");
         viewPlantDetailsMenu();
     }
 
+    // REQUIRES: input must be a "Y" or a "N"
+    // EFFECTS: asks user if they would like to view their plant otherwise returns
+    //          them to the main menu
     private void viewPlantDetailsMenu() {
         String command;
         input = new Scanner(System.in);
@@ -226,6 +236,9 @@ public class PlantApp {
 
     }
 
+    // REQUIRES: there must be at least one plant item in the list of items
+    // EFFECTS: asks the user what plant they would like to view and give the details
+    //          of the plant selected
     private void viewPlantDetails() {
         int plantNumber;
         Plant plant1;
