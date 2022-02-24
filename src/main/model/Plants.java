@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Plants {
     private final ArrayList<Plant> myPlantCollection;
 
-    // Creates a new ArrayList for Plants to be stored in
+    // EFFECTS: Creates a new ArrayList for Plants to be stored in
     public Plants() {
         myPlantCollection = new ArrayList<>();
     }

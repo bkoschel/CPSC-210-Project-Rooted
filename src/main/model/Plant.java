@@ -10,7 +10,8 @@ public class Plant {
     private final int waterPerWeek;   // how many times the plant must be watered per week
     private boolean watered;          // true if the plant has been watered, false if it hasn't been watered
 
-    // Creates a plant with a name, the type of plant, if the plant is healthy or not, how much water it needs per week,
+    // Effects: Creates a plant with a name, the type of plant, if the plant is healthy or not,
+    // how much water it needs per week,
     // and if the plant has been watered
     public Plant(String plantName, String plantType, String plantStatus, int waterPerWeek, boolean watered) {
         this.plantName = plantName;

@@ -157,7 +157,7 @@ public class PlantApp {
     // REQUIRES: user must input a single word string for the name and type of plant;
     //           the status must be healthy, ok or dead;
     //           water must be an integer less than or equal to 7;
-    //           watered must be true or false
+    //           watered must be true or false lower case
     // MODIFIES: this
     // EFFECTS: creates a new plant when user answers the prompt questions;
     //          the new plant is added to the list of plants
