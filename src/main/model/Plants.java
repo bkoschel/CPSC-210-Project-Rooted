@@ -27,6 +27,10 @@ public class Plants implements Writable {
         myPlantCollection.add(plant);
     }
 
+    public List<Plant> getPlants() {
+        return Collections.unmodifiableList(myPlantCollection);
+    }
+
     // REQUIRES: there must be at least one item in the list of Plants
     // MODIFIES: this
     public void removePlant(int positionInList) {
@@ -37,9 +41,7 @@ public class Plants implements Writable {
     public int getNumberOfPlantsInCollection() {
         return myPlantCollection.size();
     }
-    public List<Plant> getPlant() {
-        return Collections.unmodifiableList(myPlantCollection);
-    }
+
 
     // EFFECTS: returns a string representation of a list of Plants
     public String getListOfPlantNames() {
@@ -71,6 +73,8 @@ public class Plants implements Writable {
         }
         return jsonArray;
     }
+
+
 
 
 }

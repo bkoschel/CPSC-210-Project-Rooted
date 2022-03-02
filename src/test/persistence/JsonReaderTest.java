@@ -39,7 +39,7 @@ public class JsonReaderTest extends JsonTest {
         JsonReader reader = new JsonReader("./data/testReadPlantList");
         try {
             Plants plants = reader.read();
-            List<Plant> plantList = plants.getPlant();
+            List<Plant> plantList = plants.getPlants();
             assertEquals(2, plantList.size());
             checkPlants("Greg", "fern", "ok", 5, true, plantList.get(0));
             checkPlants("Sam", "cactus", "healthy", 2, false, plantList.get(1));
