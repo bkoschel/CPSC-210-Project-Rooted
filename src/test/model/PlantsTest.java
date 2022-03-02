@@ -67,10 +67,10 @@ public class PlantsTest {
     public void testGetListOfPlantNames() {
         assertEquals("", testPlants1.getListOfPlantNames());
         testPlants1.addPlant(testPlant1);
-        assertEquals("Plant Number 1: Goldie\n", testPlants1.getListOfPlantNames());
+        assertEquals("Goldie\n", testPlants1.getListOfPlantNames());
         testPlants1.addPlant(testPlant2);
-        assertEquals("Plant Number 1: Goldie\n"
-                           + "Plant Number 2: Vinny\n", testPlants1.getListOfPlantNames());
+        assertEquals("Goldie\n"
+                           + "Vinny\n", testPlants1.getListOfPlantNames());
     }
 
 

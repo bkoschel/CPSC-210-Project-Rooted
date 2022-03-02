@@ -1,9 +1,11 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
 
 // Represents a plant with a name, type of plant, plant status, how often a plant must be watered per week and
 // if the plant has been watered (true) or not (false)
-public class Plant {
+public class Plant implements Writable {
     private String plantName;         // plant name
     private final String plantType;   // the type of plant presented as its common name
     private String plantStatus;       // if the plant is growing, dying or dead
@@ -67,4 +69,14 @@ public class Plant {
                 + "\n Has plant been watered today: " + wateredStr;
     }
 
+
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("plantName", plantName);
+        json.put("plantType", plantType);
+        json.put("plantStatus", plantStatus);
+        json.put("waterPerWeek", waterPerWeek);
+        json.put("watered", watered);
+        return json;
+    }
 }

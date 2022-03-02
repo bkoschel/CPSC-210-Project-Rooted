@@ -1,10 +1,16 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 // Plants is the representation for a  list of plants
 // The methods in this class are operations that can be performed on a list of Plants
-public class Plants {
+public class Plants implements Writable {
     private final ArrayList<Plant> myPlantCollection;
 
     // EFFECTS: Creates a new ArrayList for Plants to be stored in
@@ -31,13 +37,15 @@ public class Plants {
     public int getNumberOfPlantsInCollection() {
         return myPlantCollection.size();
     }
+    public List<Plant> getPlant() {
+        return Collections.unmodifiableList(myPlantCollection);
+    }
 
     // EFFECTS: returns a string representation of a list of Plants
     public String getListOfPlantNames() {
         StringBuilder plants = new StringBuilder();
         for (int i = 0; i < getNumberOfPlantsInCollection(); i++) {
-            plants.append("Plant Number ").append(i + 1).append(": ").append(
-                    myPlantCollection.get(i).getPlantName()).append("\n");
+            plants.append(myPlantCollection.get(i).getPlantName()).append("\n");
         }
         return plants.toString(); // stub
     }
@@ -47,5 +55,22 @@ public class Plants {
     public Plant getPlant(int i)  {
         return myPlantCollection.get(i);
     }
+
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("plants", plantsToJson());
+        return null;
+    }
+
+    private JSONArray plantsToJson() {
+        JSONArray jsonArray = new JSONArray();
+        for (Plant p : myPlantCollection) {
+            jsonArray.put(p.toJson());
+        }
+        return jsonArray;
+    }
+
 
 }
