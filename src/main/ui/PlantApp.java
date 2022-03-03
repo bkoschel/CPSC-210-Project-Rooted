@@ -252,6 +252,7 @@ public class PlantApp {
 
         }
         System.out.println(myPlants.getListOfPlantNames());
+        viewPlant();
 
     }
 

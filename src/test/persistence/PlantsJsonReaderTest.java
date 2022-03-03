@@ -10,7 +10,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class JsonReaderTest extends JsonTest {
+// Tests PlantJsonReader
+
+// tests were inspired by JsonReaderTest class from JsonSerializationDemo provided by CPSC 210
+// GitHub link: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+
+public class PlantsJsonReaderTest extends PlantsJsonTest {
 
     @Test
     void testJsonReaderFileDoesNotExist() {
