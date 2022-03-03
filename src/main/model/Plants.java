@@ -11,7 +11,7 @@ import java.util.List;
 // Plants is the representation for a  list of plants
 // The methods in this class are operations that can be performed on a list of Plants
 public class Plants implements Writable {
-    private final ArrayList<Plant> myPlantCollection;
+    private final List<Plant> myPlantCollection;
 
     // EFFECTS: Creates a new ArrayList for Plants to be stored in
     public Plants() {
@@ -63,7 +63,7 @@ public class Plants implements Writable {
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("plants", plantsToJson());
-        return null;
+        return json;
     }
 
     private JSONArray plantsToJson() {

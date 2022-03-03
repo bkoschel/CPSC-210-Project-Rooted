@@ -18,5 +18,17 @@ public class JsonWriter {
         writer = new PrintWriter(new File(file));
     }
 
+    public void write(Plants plants) {
+        JSONObject json = plants.toJson();
+        saveToFile(json.toString(TAB));
+    }
+
+    public void close() {
+        writer.close();
+    }
+
+    private void saveToFile(String json) {
+        writer.print(json);
+    }
 
 }
