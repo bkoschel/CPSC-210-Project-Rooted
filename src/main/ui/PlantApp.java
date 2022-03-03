@@ -2,19 +2,29 @@ package ui;
 
 import model.Plant;
 import model.Plants;
+import persistence.JsonWriter;
+import persistence.JsonReader;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 // An app to help keep track of your plants and keep them healthy
 // PlantApp was inspired by the TellerApp provided in CPSC 210
 // GitHub Link: https://github.students.cs.ubc.ca/CPSC210/TellerAppRobust.git
 public class PlantApp {
+    private static final String JSON_FILE = "./data/plantList.json";
     private Plants myPlants;
     private Scanner input;
     private boolean exit;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // EFFECTS: runs the Plant App
-    PlantApp() {
+    PlantApp() throws FileNotFoundException {
+        jsonReader = new JsonReader(JSON_FILE);
+        jsonWriter = new JsonWriter(JSON_FILE);
         runPlantApp();
     }
 
@@ -62,9 +72,34 @@ public class PlantApp {
         } else if (command.equals("5")) {
             waterPlants();
         } else if (command.equals("6")) {
+            savePlants();
+        } else if (command.equals("7")) {
+            loadPlants();
+        } else if (command.equals("8")) {
             exit = false;
         } else {
             System.out.println("Selection invalid");
+        }
+    }
+
+    private void loadPlants() {
+        try {
+            myPlants = jsonReader.read();
+            System.out.println("Loaded Plant List to " + JSON_FILE);
+        } catch (IOException i) {
+            System.out.println("Unable to read file: " + JSON_FILE);
+        }
+
+    }
+
+    private void savePlants() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(myPlants);
+            jsonWriter.close();
+            System.out.println("Saved Plant List to " + JSON_FILE);
+        } catch (FileNotFoundException i) {
+            System.out.println("Cannot write to the file called: " + JSON_FILE);
         }
     }
 
@@ -264,7 +299,9 @@ public class PlantApp {
         System.out.println("\t3 - Remove a plant from the collection");
         System.out.println("\t4 - Change Plant Status");
         System.out.println("\t5 - Water Plant");
-        System.out.println("\t6 - Exit Application");
+        System.out.println("\t6 - Save Plant List");
+        System.out.println("\t7 - Load Plant List");
+        System.out.println("\t8 - Exit Application");
     }
 
 }

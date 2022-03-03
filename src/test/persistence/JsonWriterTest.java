@@ -48,12 +48,12 @@ public class JsonWriterTest extends JsonTest{
             plants.addPlant(new Plant("Greg", "fern", "ok", 5, false));
             plants.addPlant(new Plant("Adam", "cactus", "healthy", 3,
                     true));
-            JsonWriter writer = new JsonWriter("./data/testWriteEmptyPlantList.json");
+            JsonWriter writer = new JsonWriter("./data/testWritePlantList.json");
             writer.open();
             writer.write(plants);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWriteEmptyPlantList.json");
+            JsonReader reader = new JsonReader("./data/testWritePlantList.json");
             plants = reader.read();
             List<Plant> plantList = plants.getPlants();
             assertEquals(2, plants.getNumberOfPlantsInCollection());
