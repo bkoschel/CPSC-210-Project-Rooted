@@ -2,29 +2,30 @@ package ui;
 
 import model.Plant;
 import model.Plants;
-import persistence.JsonWriter;
-import persistence.JsonReader;
+import persistence.PlantJsonWriter;
+import persistence.PlantJsonReader;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
 import java.util.Scanner;
 
 // An app to help keep track of your plants and keep them healthy
 // PlantApp was inspired by the TellerApp provided in CPSC 210
 // GitHub Link: https://github.students.cs.ubc.ca/CPSC210/TellerAppRobust.git
+// The savable/loadable methods were inspired by JsonSerializationDemo provided by CPSC 210
+// GitHub link: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
 public class PlantApp {
     private static final String JSON_FILE = "./data/plantList.json";
     private Plants myPlants;
     private Scanner input;
     private boolean exit;
-    private JsonWriter jsonWriter;
-    private JsonReader jsonReader;
+    private PlantJsonWriter jsonWriter;
+    private PlantJsonReader jsonReader;
 
-    // EFFECTS: runs the Plant App
+    // EFFECTS: runs the Plant App and constructs new reader and writer to the JSON_FILE
     PlantApp() throws FileNotFoundException {
-        jsonReader = new JsonReader(JSON_FILE);
-        jsonWriter = new JsonWriter(JSON_FILE);
+        jsonReader = new PlantJsonReader(JSON_FILE);
+        jsonWriter = new PlantJsonWriter(JSON_FILE);
         runPlantApp();
     }
 
@@ -82,6 +83,10 @@ public class PlantApp {
         }
     }
 
+    // EFFECTS: loads the plant list from the given file
+    // MODIFIES: this
+    // inspired by loadWorkRoom method from JsonSerializationDemo provided by CPSC 210
+    // GitHub link: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
     private void loadPlants() {
         try {
             myPlants = jsonReader.read();
@@ -92,6 +97,9 @@ public class PlantApp {
 
     }
 
+    // EFFECTS: saves the current plant list to a given file
+    // inspired by saveWorkRoom method from JsonSerializationDemo provided by CPSC 210
+    // GitHub link: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
     private void savePlants() {
         try {
             jsonWriter.open();
@@ -240,11 +248,11 @@ public class PlantApp {
                             + " plants in your collection\n");
         if (myPlants.getNumberOfPlantsInCollection() == 0) {
             System.out.println("Oh no! You have 0 plants in your collection\n"
-                                + "Let's add a plant!\n");
-            addNewPlant();
+                                + "Press 2 to add a plant!\n");
+
         }
         System.out.println(myPlants.getListOfPlantNames());
-        viewPlant();
+
     }
 
     // EFFECTS: prompts the user if they would like the details of a plant entry

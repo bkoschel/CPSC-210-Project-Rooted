@@ -16,7 +16,7 @@ public class JsonWriterTest extends JsonTest{
     void testWriteToInvalidFile() {
         try {
             Plants plants = new Plants();
-            JsonWriter writer = new JsonWriter("./data/\0illegalfile.json");
+            PlantJsonWriter writer = new PlantJsonWriter("./data/\0illegalfile.json");
             writer.open();
             fail("IOException");
         } catch (IOException i) {
@@ -28,12 +28,12 @@ public class JsonWriterTest extends JsonTest{
     void testWriteToEmptyPlantList() {
         try {
             Plants plants = new Plants();
-            JsonWriter writer = new JsonWriter("./data/testWriteEmptyPlantList.json");
+            PlantJsonWriter writer = new PlantJsonWriter("./data/testWriteEmptyPlantList.json");
             writer.open();
             writer.write(plants);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWriteEmptyPlantList.json");
+            PlantJsonReader reader = new PlantJsonReader("./data/testWriteEmptyPlantList.json");
             plants = reader.read();
             assertEquals(0, plants.getNumberOfPlantsInCollection());
         } catch (IOException i) {
@@ -48,12 +48,12 @@ public class JsonWriterTest extends JsonTest{
             plants.addPlant(new Plant("Greg", "fern", "ok", 5, false));
             plants.addPlant(new Plant("Adam", "cactus", "healthy", 3,
                     true));
-            JsonWriter writer = new JsonWriter("./data/testWritePlantList.json");
+            PlantJsonWriter writer = new PlantJsonWriter("./data/testWritePlantList.json");
             writer.open();
             writer.write(plants);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWritePlantList.json");
+            PlantJsonReader reader = new PlantJsonReader("./data/testWritePlantList.json");
             plants = reader.read();
             List<Plant> plantList = plants.getPlants();
             assertEquals(2, plants.getNumberOfPlantsInCollection());

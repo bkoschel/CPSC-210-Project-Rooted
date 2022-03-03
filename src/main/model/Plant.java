@@ -1,11 +1,13 @@
 package model;
 
 import org.json.JSONObject;
-import persistence.Writable;
+import persistence.CanWrite;
 
 // Represents a plant with a name, type of plant, plant status, how often a plant must be watered per week and
 // if the plant has been watered (true) or not (false)
-public class Plant implements Writable {
+// Some code was inspired by JsonSerializationDemo provided by CPSC 210
+//// GitHub link: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+public class Plant implements CanWrite {
     private String plantName;         // plant name
     private final String plantType;   // the type of plant presented as its common name
     private String plantStatus;       // if the plant is growing, dying or dead
@@ -70,6 +72,10 @@ public class Plant implements Writable {
     }
 
 
+    // EFFECTS: returns a JSON object of the plant name, type, status, amount watered per week
+    //          and if the plant has been watered or not
+    // toJson was from the JsonSerializationDemo provided by CPSC 210
+    //// GitHub link: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("plantName", plantName);

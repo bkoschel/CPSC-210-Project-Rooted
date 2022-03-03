@@ -14,7 +14,7 @@ public class JsonReaderTest extends JsonTest {
 
     @Test
     void testJsonReaderFileDoesNotExist() {
-        JsonReader reader = new JsonReader("./data/doesNotExist.json");
+        PlantJsonReader reader = new PlantJsonReader("./data/doesNotExist.json");
         try {
             Plants plants = reader.read();
             fail("IOException");
@@ -25,7 +25,7 @@ public class JsonReaderTest extends JsonTest {
 
     @Test
     void testReadEmptyPlantList() {
-        JsonReader reader = new JsonReader("./data/testReadEmptyPlantList");
+        PlantJsonReader reader = new PlantJsonReader("./data/testReadEmptyPlantList");
         try {
             Plants plants = reader.read();
             assertEquals(0, plants.getNumberOfPlantsInCollection());
@@ -36,7 +36,7 @@ public class JsonReaderTest extends JsonTest {
 
     @Test
     void testReadPlantList() {
-        JsonReader reader = new JsonReader("./data/testReadPlantList");
+        PlantJsonReader reader = new PlantJsonReader("./data/testReadPlantList");
         try {
             Plants plants = reader.read();
             List<Plant> plantList = plants.getPlants();
