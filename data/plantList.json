@@ -1,1 +1,16 @@
-{"plants": []}
+{"plants": [
+    {
+        "plantStatus": "ok",
+        "watered": true,
+        "plantName": "James",
+        "plantType": "fern",
+        "waterPerWeek": 5
+    },
+    {
+        "plantStatus": "healthy",
+        "watered": false,
+        "plantName": "Tom",
+        "plantType": "fern",
+        "waterPerWeek": 6
+    }
+]}

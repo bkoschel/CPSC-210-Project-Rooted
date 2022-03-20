@@ -10,10 +10,11 @@ import java.io.FileNotFoundException;
 // GitHub link: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
 public class Main {
     public static void main(String[] args) {
-        try {
-            new PlantApp();
-        } catch (FileNotFoundException i) {
-            System.out.println("Application was not able to run: file not found");
-        }
+        new PlantGUI();
+//        try {
+//            new PlantApp();
+//        } catch (FileNotFoundException i) {
+//            System.out.println("Application was not able to run: file not found");
+//        }
     }
 }
