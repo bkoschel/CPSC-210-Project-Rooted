@@ -14,6 +14,7 @@ public class PlantGUI extends JFrame {
 
     private static final String JSON_FILE = "./data/plantList.json";
 
+    private JFrame frame;
     private JPanel mainMenu;
     private JButton b1;
     private JButton b2;
@@ -27,14 +28,17 @@ public class PlantGUI extends JFrame {
 
 
     public PlantGUI() {
-        super("PlantApp");
-        Dimension dimension = new Dimension(500, 500);
-        setSize(dimension);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame = new JFrame("Rooted");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Dimension dimension = new Dimension(800, 700);
+        frame.setPreferredSize(dimension);
 
         initializeMainMenu();
 
         welcomeMessage();
+
+        frame.pack();
+        frame.setVisible(true);
 
         mainMenu.setVisible(true);
     }
@@ -59,6 +63,11 @@ public class PlantGUI extends JFrame {
     }
 
     private void addImageToLabel(JLabel mainScreen) {
+        ImageIcon icon = new ImageIcon("./data/succulent.jpg");
+        mainScreen.setIcon(icon);
+        Dimension dimension = new Dimension(20, 20);
+        setSize(dimension);
+        mainMenu.add(mainScreen);
     }
 
 }
