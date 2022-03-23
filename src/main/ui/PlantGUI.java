@@ -40,12 +40,16 @@ public class PlantGUI extends JFrame implements ActionListener {
     private JPanel plantsPanel;
     private JLabel plantsLabel;
 
+    private JList plantList;
+    private DefaultListModel<String> listModel;
+
     public PlantGUI() {
         super("PlantApp");
         frame = new JFrame("Rooted");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Dimension dimension = new Dimension(800, 400);
         frame.setPreferredSize(dimension);
+        listModel = new DefaultListModel<>();
 
         createIcon();
         initializeMainMenu();
@@ -149,19 +153,22 @@ public class PlantGUI extends JFrame implements ActionListener {
 
         plantInfo.setVisible(true);
         mainMenu.setVisible(false);
-        plantsPanel.setVisible(false);
+
     }
 
     public void generatePlantPanel() {
+
         addPlant = new JButton("Add Plant to list");
         addPlant.addActionListener(this);
         addPlant.setActionCommand("Add Plant to list");
+        //addPlantToPlants();
 
         generatePlant();
         generatePlantTextField();
 
         plantInfoLabel = new JLabel();
         plantLabelStyle();
+
     }
 
     public void generatePlant() {
@@ -250,13 +257,21 @@ public class PlantGUI extends JFrame implements ActionListener {
         mainMenu.setVisible(true);
         plantsPanel.setVisible(false);
         plantInfo.setVisible(false);
+
     }
 
     public void addPlantToPlants() {
+        plant = new Plant(nameText.getText(), typeText.getText(), statusText.getText(),
+                Integer.parseInt(waterAmountText.getText()), Boolean.parseBoolean(wateredText.getText()));
+        plants.addPlant(plant);
+        plantsLabel.setText(plants.getListOfPlantNames());
 
     }
 
-    public void removePlant(Plant plant) {}
+
+    public void removePlant(Plant plant) {
+
+    }
 
 
 }
