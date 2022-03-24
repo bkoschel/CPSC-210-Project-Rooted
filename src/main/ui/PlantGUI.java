@@ -16,7 +16,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.net.URL;
 
+// referenced ListDemo/MenuDemo project from https://docs.oracle.com/javase/tutorial/uiswing/examples/components/index.html
 
 public class PlantGUI extends JPanel implements ListSelectionListener {
 
@@ -49,6 +51,10 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
     private JMenuBar menuBar;
     private JMenu menu;
 
+    private ImageIcon gif;
+    private JLabel gifLabel;
+    private JFrame gifFrame;
+
 
     // EFFECTS: creates all the components of the GUI
     public PlantGUI(JFrame frame) {
@@ -68,21 +74,26 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
 
         initializeRemoveButton();
         initializeAddButton();
-        initializeJTextFields(addPlantListener);
+        initializeJTextFields();
         createPanel(splitPane, addButton);
 
     }
 
     private void createMenuBar() {
+        Font menuFont = new Font("Georgia", Font.PLAIN, 24);
+        Font menuItemFont = new Font("Georgia", Font.PLAIN, 20);
         menuBar = new JMenuBar();
         menu = new JMenu("Menu");
+        menu.setFont(menuFont);
         JMenuItem menuItem = new JMenuItem("Save");
+        menuItem.setFont(menuItemFont);
         saveListener = new SaveListener();
         menuItem.setActionCommand("Save");
         menuItem.addActionListener(saveListener);
         menu.add(menuItem);
 
         JMenuItem menuItem1 = new JMenuItem("Load");
+        menuItem1.setFont(menuItemFont);
         loadListener = new LoadListener();
         menuItem1.setActionCommand("Load");
         menuItem1.addActionListener(loadListener);
@@ -94,9 +105,10 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
 
     private void createSplitPlane() {
         JScrollPane scrollPane = createList();
-        area = new JTextArea(10, 30);
+        scrollPane.setPreferredSize(new Dimension(100, 100));
+        area = new JTextArea(6, 30);
         JScrollPane areaScrollPane = new JScrollPane(area);
-        area.setEditable(true);
+        area.setEditable(false);
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPane, areaScrollPane);
     }
 
@@ -107,14 +119,15 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
 
     private void createPanel(JSplitPane splitPane, JButton button) {
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
         JPanel sideButtonPanel = createSideButtonPanel();
         buttonPanel.add(sideButtonPanel);
-        buttonPanel.add(Box.createHorizontalStrut(10));
-        buttonPanel.add(Box.createHorizontalStrut(10));
+        buttonPanel.add(Box.createHorizontalStrut(0));
+        buttonPanel.add(Box.createHorizontalStrut(0));
 
         JPanel panel = constructLabels();
+
 
         buttonPanel.add(panel);
         buttonPanel.add(Box.createHorizontalStrut(10));
@@ -122,7 +135,7 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
         buttonPanel.add(Box.createHorizontalStrut(10));
         buttonPanel.add(removeButton);
         buttonPanel.add(Box.createHorizontalStrut(10));
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10,10));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20,20));
 
         add(splitPane, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.PAGE_START);
@@ -130,20 +143,28 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
 
     private JPanel createSideButtonPanel() {
         JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.add(removeButton);
         return panel;
     }
 
+    @SuppressWarnings("methodlength")
     private JPanel constructLabels() {
+        Font labelFont = new Font("Georgia", Font.BOLD, 20);
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
+
         JLabel nameLabel = new JLabel("Plant Name");
+        nameLabel.setFont(labelFont);
         JLabel typeLabel = new JLabel("Plant Type (fern, cactus, etc");
+        typeLabel.setFont(labelFont);
         JLabel statusLabel = new JLabel("Status (healthy, dead, ok)");
+        statusLabel.setFont(labelFont);
         JLabel waterAmountLabel = new JLabel("Water Amount (# of days per week)");
+        waterAmountLabel.setFont(labelFont);
         JLabel wateredLabel = new JLabel("Watered? (true or false)");
+        wateredLabel.setFont(labelFont);
 
         panel.add(nameLabel);
         panel.add(this.name);
@@ -156,12 +177,14 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
         panel.add(wateredLabel);
         panel.add(this.watered);
 
+       // panel.setPreferredSize(new Dimension(50, 300));
+
         return panel;
     }
 
 
 
-    private void initializeJTextFields(AddPlantListener plantListener) {
+    private void initializeJTextFields() {
         initializeNameJTextField();
         initializeTypeJTextField();
         initializeStatusJTextField();
@@ -171,31 +194,51 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
     }
 
     private void initializeNameJTextField() {
-        name = new JTextField(20);
+        Font textFieldFont = new Font("Georgia", Font.PLAIN, 18);
+        Dimension textFieldDimension = new Dimension(10, 30);
+        name = new JTextField(10);
+        name.setFont(textFieldFont);
+        name.setPreferredSize(textFieldDimension);
         name.addActionListener(addPlantListener);
         name.getDocument().addDocumentListener(addPlantListener);
     }
 
     private void initializeTypeJTextField() {
+        Font textFieldFont = new Font("Georgia", Font.PLAIN, 18);
+        Dimension textFieldDimension = new Dimension(12, 30);
         type = new JTextField(20);
+        type.setFont(textFieldFont);
+        type.setPreferredSize(textFieldDimension);
         type.addActionListener(addPlantListener);
         type.getDocument().addDocumentListener(addPlantListener);
     }
 
     private void initializeStatusJTextField() {
+        Font textFieldFont = new Font("Georgia", Font.PLAIN, 18);
+        Dimension textFieldDimension = new Dimension(12, 30);
         status = new JTextField(20);
+        status.setFont(textFieldFont);
+        status.setPreferredSize(textFieldDimension);
         status.addActionListener(addPlantListener);
         status.getDocument().addDocumentListener(addPlantListener);
     }
 
     private void initializeWaterAmountJTextField() {
+        Font textFieldFont = new Font("Georgia", Font.PLAIN, 18);
+        Dimension textFieldDimension = new Dimension(12, 30);
         waterAmount = new JTextField(20);
+        waterAmount.setFont(textFieldFont);
+        waterAmount.setPreferredSize(textFieldDimension);
         waterAmount.addActionListener(addPlantListener);
         waterAmount.getDocument().addDocumentListener(addPlantListener);
     }
 
     private void initializeWateredJTextField() {
+        Font textFieldFont = new Font("Georgia", Font.PLAIN, 18);
+        Dimension textFieldDimension = new Dimension(12, 30);
         watered = new JTextField(20);
+        watered.setFont(textFieldFont);
+        watered.setPreferredSize(textFieldDimension);
         watered.addActionListener(addPlantListener);
         watered.getDocument().addDocumentListener(addPlantListener);
     }
@@ -218,11 +261,13 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
     }
 
     private JScrollPane createList() {
+        Font listFont = new Font("Georgia", Font.PLAIN, 20);
         list = new JList(listModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setSelectedIndex(0);
         list.addListSelectionListener(this);
         list.setVisibleRowCount(10);
+        list.setFont(listFont);
         return new JScrollPane(list);
     }
 
@@ -334,7 +379,8 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
                 jsonWriter.open();
                 jsonWriter.write(plantList);
                 jsonWriter.close();
-                JOptionPane.showMessageDialog(frame, "Plant List Saved");
+                //JOptionPane.showMessageDialog(frame, "Plant List Saved");
+                createAnimation();
             } catch (IOException i) {
                 System.out.println("Unable to save " + JSON_FILE + " Json file");
             }
@@ -368,6 +414,7 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
     }
 
     private void updatePlantInfo(String plantName) {
+        Font listFont = new Font("Georgia", Font.PLAIN, 20);
         for (Plant p: plantList.getPlants()) {
             if (p.getPlantName().equals(plantName)) {
                 JTextArea plantInfo = new JTextArea("\nPlant Name: " + p.getPlantName()
@@ -375,12 +422,38 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
                         + "\nPlant Status: " + p.getPlantStatus()
                         + "\nWater Amount: " + p.getPlantWater()
                         + "\nWatered Today? " + p.getWatered());
+                plantInfo.setFont(listFont);
                 splitPane.setRightComponent(plantInfo);
 
             }
         }
     }
 
+    private void createAnimation() {
+        gif = new ImageIcon("./data/fallingleaves.png");
+        gifLabel = new JLabel(gif);
+        gifFrame = new JFrame();
+        //frame.setPreferredSize(new Dimension(300, 100));
 
+        JPanel panel = new JPanel();
+
+        LayoutManager overlay = new OverlayLayout(panel);
+        panel.setLayout(overlay);
+        //panel.setPreferredSize(new Dimension(300, 300));
+
+        JLabel label = new JLabel("Plant List Saved!");
+        label.setFont(new Font("Georgia", Font.BOLD, 24));
+        label.setAlignmentX(0.5f);
+        label.setAlignmentY(0.5f);
+        panel.add(label);
+        gifLabel.setAlignmentX(0.5f);
+        panel.add(gifLabel);
+
+
+        gifFrame.add(panel);
+        gifFrame.pack();
+        gifFrame.setLocationRelativeTo(null);
+        gifFrame.setVisible(true);
+    }
 
 }

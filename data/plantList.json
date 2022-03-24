@@ -1,15 +1,15 @@
 {"plants": [
     {
-        "plantStatus": "healthy",
-        "watered": true,
-        "plantName": "Timmy",
+        "plantStatus": "ok",
+        "watered": false,
+        "plantName": "Jack",
         "plantType": "fern",
-        "waterPerWeek": 5
+        "waterPerWeek": 2
     },
     {
         "plantStatus": "dead",
         "watered": false,
-        "plantName": "Johnny",
+        "plantName": "Sparrow",
         "plantType": "cactus",
         "waterPerWeek": 0
     }

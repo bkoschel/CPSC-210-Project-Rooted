@@ -2,6 +2,7 @@ package ui;
 
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Main {
 
@@ -10,10 +11,12 @@ public class Main {
     private static void createAndShowGUI() {
         JFrame frame = new JFrame("Rooted");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setPreferredSize(new Dimension(500, 700));
 
         JComponent newContentpane = new PlantGUI(frame);
         newContentpane.setOpaque(true);
-        frame.setContentPane(newContentpane);
+        frame.add(newContentpane);
 
         frame.pack();
         frame.setVisible(true);
