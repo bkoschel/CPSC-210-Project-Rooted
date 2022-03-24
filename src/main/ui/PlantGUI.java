@@ -2,80 +2,72 @@ package ui;
 
 import model.Plant;
 import model.Plants;
+import persistence.PlantJsonReader;
+import persistence.PlantJsonWriter;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.ListSelectionModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class PlantGUI extends JFrame implements ActionListener {
+public class PlantGUI extends JPanel implements ListSelectionListener {
 
-    private Plant plant;
-    private Plants plants;
+    private JList list;
+    private DefaultListModel<String> listModel;
+    private JFrame frame;
+
+    private Plants plantList;
 
     private static final String JSON_FILE = "./data/plantList.json";
+    private PlantJsonReader jsonReader;
+    private PlantJsonWriter jsonWriter;
 
-    private JFrame frame;
-    private JPanel mainMenu;
-    private JButton addPlant;
-    private JButton b1;
-    private JButton b2;
-    private JButton b3;
-    private JButton b4;
+    private JTextArea area;
+    private JTextField name;
+    private JTextField type;
+    private JTextField status;
+    private JTextField waterAmount;
+    private JTextField watered;
 
-    private JPanel plantInfo;
-    private JLabel plantInfoLabel;
-    private JTextField nameText;
-    private JTextField typeText;
-    private JTextField statusText;
-    private JTextField waterAmountText;
-    private JTextField wateredText;
-    private JLabel name;
-    private JLabel type;
-    private JLabel status;
-    private JLabel waterAmount;
-    private JLabel watered;
+    private JButton addButton;
+    private JButton removeButton;
+    private JSplitPane splitPane;
+    private AddPlantListener addPlantListener;
+    private RemovePlantListener removePlantListener;
 
-    private JPanel plantsPanel;
-    private JLabel plantsLabel;
 
-    private JList plantList;
-    private DefaultListModel<String> listModel;
-
-    public PlantGUI() {
-        super("PlantApp");
-        frame = new JFrame("Rooted");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Dimension dimension = new Dimension(800, 400);
-        frame.setPreferredSize(dimension);
+    // EFFECTS: creates all the components of the GUI
+    public PlantGUI(JFrame frame) {
+        super(new BorderLayout());
+        plantList = new Plants();
+        jsonReader = new PlantJsonReader(JSON_FILE);
+        jsonWriter = new PlantJsonWriter(JSON_FILE);
+        this.frame = frame;
         listModel = new DefaultListModel<>();
 
+
         createIcon();
-        initializeMainMenu();
-        welcomeMessage();
+        createSplitPlane();
 
-        initializeButtons();
-        addButtons(b1, b2, b3, b4);
-
-        buttonAction();
-
-        frame.pack();
-        frame.setVisible(true);
+        initializeRemoveButton();
+        initializeAddButton();
+        initializeJTextFields(addPlantListener);
+        createPanel(splitPane, addButton);
 
     }
 
-
-    public void welcomeMessage() {
-        JLabel welcome = new JLabel("Welcome to Rooted", SwingConstants.CENTER);
-        addMainLabel(welcome);
-
-    }
-
-    private void addMainLabel(JLabel welcome) {
-        Font font = new Font("Arial", Font.BOLD, 40);
-        welcome.setFont(font);
-        mainMenu.add(welcome);
+    private void createSplitPlane() {
+        JScrollPane scrollPane = createList();
+        area = new JTextArea(10, 30);
+        JScrollPane areaScrollPane = new JScrollPane(area);
+        area.setEditable(true);
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPane, areaScrollPane);
     }
 
     public void createIcon() {
@@ -83,195 +75,256 @@ public class PlantGUI extends JFrame implements ActionListener {
         frame.setIconImage(img.getImage());
     }
 
-    private void initializeMainMenu() {
-        mainMenu = new JPanel();
-        frame.add(mainMenu);
-        mainMenu.setVisible(true);
+    private void createPanel(JSplitPane splitPane, JButton button) {
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
+
+        JPanel sideButtonPanel = createSideButtonPanel();
+        buttonPanel.add(sideButtonPanel);
+        buttonPanel.add(Box.createHorizontalStrut(10));
+        buttonPanel.add(Box.createHorizontalStrut(10));
+
+        JPanel panel = constructLabels();
+
+        buttonPanel.add(panel);
+        buttonPanel.add(Box.createHorizontalStrut(10));
+        buttonPanel.add(addButton);
+        buttonPanel.add(Box.createHorizontalStrut(10));
+        buttonPanel.add(removeButton);
+        buttonPanel.add(Box.createHorizontalStrut(10));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10,10));
+
+        add(splitPane, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.PAGE_START);
     }
 
-    public void initializeButtons() {
-        b1 = new JButton("View your plant list");
-        b2 = new JButton("Add a plant");
-        b3 = new JButton("Remove a plant");
-        b4 = new JButton("Exit application");
-
+    private JPanel createSideButtonPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        panel.add(removeButton);
+        return panel;
     }
 
-    public void addButton(JButton button, JPanel panel) {
-        Font font = new Font("Ariel", Font.PLAIN, 20);
-        button.setFont(font);
-        panel.add(button);
+    private JPanel constructLabels() {
+        JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        frame.pack();
-        setVisible(true);
+
+        JLabel nameLabel = new JLabel("Plant Name");
+        JLabel typeLabel = new JLabel("Plant Type (fern, cactus, etc");
+        JLabel statusLabel = new JLabel("Status (healthy, dead, ok)");
+        JLabel waterAmountLabel = new JLabel("Water Amount (# of days per week)");
+        JLabel wateredLabel = new JLabel("Watered? (true or false)");
+
+        panel.add(nameLabel);
+        panel.add(this.name);
+        panel.add(typeLabel);
+        panel.add(this.type);
+        panel.add(statusLabel);
+        panel.add(this.status);
+        panel.add(waterAmountLabel);
+        panel.add(this.waterAmount);
+        panel.add(wateredLabel);
+        panel.add(this.watered);
+
+        return panel;
+    }
+
+
+
+    private void initializeJTextFields(AddPlantListener plantListener) {
+        initializeNameJTextField();
+        initializeTypeJTextField();
+        initializeStatusJTextField();
+        initializeWaterAmountJTextField();
+        initializeWateredJTextField();
 
     }
 
-    public void addButtons(JButton button1, JButton button2, JButton button3, JButton button6) {
-        addButton(button1, mainMenu);
-        addButton(button2, mainMenu);
-        addButton(button3, mainMenu);
-        addButton(button6, mainMenu);
+    private void initializeNameJTextField() {
+        name = new JTextField(20);
+        name.addActionListener(addPlantListener);
+        name.getDocument().addDocumentListener(addPlantListener);
     }
 
-    public void buttonAction() {
-        b1.addActionListener(this);
-        b1.setActionCommand("View your plant list");
-        b2.addActionListener(this);
-        b2.setActionCommand("Add a plant");
-        b3.addActionListener(this);
-        b3.setActionCommand("Remove a plant");
-        b4.addActionListener(this);
-        b4.setActionCommand("Exit application");
-
+    private void initializeTypeJTextField() {
+        type = new JTextField(20);
+        type.addActionListener(addPlantListener);
+        type.getDocument().addDocumentListener(addPlantListener);
     }
 
-    public void actionPerformed(ActionEvent actionEvent) {
-        if (actionEvent.getActionCommand().equals("View your plant list")) {
-            initializePlantsPanel();
-        } else if (actionEvent.getActionCommand().equals("Add a plant")) {
-            initializePlantPanel();
-        } else if (actionEvent.getActionCommand().equals("Remove a plant")) {
-            removePlant(plant);
-        } else if (actionEvent.getActionCommand().equals("Return to main menu")) {
-            backToMainMenu();
-        } else if (actionEvent.getActionCommand().equals("Add Plant to list")) {
-            addPlantToPlants();
-        } else if (actionEvent.getActionCommand().equals("Exit application")) {
-            System.exit(0);
+    private void initializeStatusJTextField() {
+        status = new JTextField(20);
+        status.addActionListener(addPlantListener);
+        status.getDocument().addDocumentListener(addPlantListener);
+    }
+
+    private void initializeWaterAmountJTextField() {
+        waterAmount = new JTextField(20);
+        waterAmount.addActionListener(addPlantListener);
+        waterAmount.getDocument().addDocumentListener(addPlantListener);
+    }
+
+    private void initializeWateredJTextField() {
+        watered = new JTextField(20);
+        watered.addActionListener(addPlantListener);
+        watered.getDocument().addDocumentListener(addPlantListener);
+    }
+
+    private void initializeRemoveButton() {
+        removeButton = new JButton("Remove Plant");
+        removePlantListener = new RemovePlantListener();
+        removeButton.setActionCommand("Remove Plant");
+        removeButton.addActionListener(removePlantListener);
+        removeButton.setEnabled(false);
+    }
+
+
+    private void initializeAddButton() {
+        addButton = new JButton("Add Plant");
+        addPlantListener = new AddPlantListener(addButton);
+        addButton.setActionCommand("Add Plant");
+        addButton.addActionListener(addPlantListener);
+        addButton.setEnabled(false);
+    }
+
+    private JScrollPane createList() {
+        list = new JList(listModel);
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list.setSelectedIndex(0);
+        list.addListSelectionListener(this);
+        list.setVisibleRowCount(10);
+        return new JScrollPane(list);
+    }
+
+
+
+
+    class AddPlantListener implements ActionListener, DocumentListener {
+
+        private boolean alreadyEnabled = false;
+        private JButton button;
+
+        public AddPlantListener(JButton button) {
+            this.button = button;
+        }
+
+        // MODIFIES: this
+        // EFFECTS: adds plants to the plant list; clears the textField,
+        //         inserts plants into the listModel; makes new plan visible
+        public void actionPerformed(ActionEvent ae) {
+            Plant plant = new Plant(name.getText(), type.getText(), status.getText(),
+                    Integer.parseInt(waterAmount.getText()), Boolean.parseBoolean(watered.getText()));
+
+            plantList.addPlant(plant);
+
+            int index = list.getSelectedIndex();
+            if (index == -1) {
+                index = 0;
+            } else {
+                index++;
+            }
+
+            listModel.insertElementAt(name.getText(), index);
+
+
+
+            PlantGUI.this.name.requestFocusInWindow();
+            PlantGUI.this.name.setText("");
+            PlantGUI.this.type.requestFocusInWindow();
+            PlantGUI.this.type.setText("");
+            PlantGUI.this.status.requestFocusInWindow();
+            PlantGUI.this.status.setText("");
+            PlantGUI.this.waterAmount.requestFocusInWindow();
+            PlantGUI.this.waterAmount.setText("");
+            PlantGUI.this.watered.requestFocusInWindow();
+            PlantGUI.this.watered.setText("");
+
+            list.setSelectedIndex(index);
+            list.ensureIndexIsVisible(index);
+        }
+
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            enableButton();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            handleEmptyTextField(e);
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            if (!handleEmptyTextField(e)) {
+                enableButton();
+            }
+        }
+
+        private void enableButton() {
+            if (!alreadyEnabled) {
+                button.setEnabled(true);
+            }
+        }
+
+        private boolean handleEmptyTextField(DocumentEvent e) {
+            if (e.getDocument().getLength() <= 0) {
+                button.setEnabled(false);
+                alreadyEnabled = false;
+                return true;
+            }
+            return false;
         }
     }
 
-    private void initializePlantPanel() {
-        plantInfo = new JPanel();
+    class RemovePlantListener implements  ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            int index = list.getSelectedIndex();
+            listModel.remove(index);
 
-        generatePlantPanel();
-        addPlantLabels();
-        frame.add(plantInfo);
-        JButton mainMenuJButton = returnToMainMenuButton();
-        addButton(mainMenuJButton, plantInfo);
+            int size = listModel.getSize();
 
-        plantInfo.setVisible(true);
-        mainMenu.setVisible(false);
-
-    }
-
-    public void generatePlantPanel() {
-
-        addPlant = new JButton("Add Plant to list");
-        addPlant.addActionListener(this);
-        addPlant.setActionCommand("Add Plant to list");
-        //addPlantToPlants();
-
-        generatePlant();
-        generatePlantTextField();
-
-        plantInfoLabel = new JLabel();
-        plantLabelStyle();
-
-    }
-
-    public void generatePlant() {
-        name = new JLabel("Plant name: ");
-        type = new JLabel("Plant type: ");
-        status = new JLabel("Plant status: ");
-        waterAmount = new JLabel("Amount watered: ");
-        watered = new JLabel("Watered today? ");
-    }
-
-    public void generatePlantTextField() {
-        nameText = new JTextField(10);
-        typeText = new JTextField(10);
-        statusText = new JTextField(10);
-        waterAmountText = new JTextField(10);
-        wateredText = new JTextField(10);
-    }
-
-    public void addPlantLabels() {
-        plantInfo.add(name);
-        plantInfo.add(nameText);
-        plantInfo.add(type);
-        plantInfo.add(typeText);
-        plantInfo.add(status);
-        plantInfo.add(statusText);
-        plantInfo.add(waterAmount);
-        plantInfo.add(waterAmountText);
-        plantInfo.add(watered);
-        plantInfo.add(wateredText);
-
-        plantInfo.add(addPlant);
-        plantInfo.add(plantInfoLabel);
-    }
-
-    public void plantLabelStyle() {
-        Font addPlantFont = new Font("Arial", Font.PLAIN, 12);
-        Font plantFont = new Font("Arial", Font.PLAIN, 24);
-
-        addPlant.setFont(addPlantFont);
-        name.setFont(plantFont);
-        type.setFont(plantFont);
-        status.setFont(plantFont);
-        waterAmount.setFont(plantFont);
-        watered.setFont(plantFont);
-
+            if (size == 0) {
+                removeButton.setEnabled(false);
+                splitPane.setRightComponent(new JTextArea("Empty"));
+                splitPane.setVisible(true);
+            } else {
+                if (index == listModel.getSize()) {
+                    index--;
+                }
+                list.setSelectedIndex(index);
+                list.ensureIndexIsVisible(index);
+            }
+        }
     }
 
 
-    public void initializePlantsPanel() {
-        plantsPanel = new JPanel();
-        JButton mainMenuJButton = new JButton("Return to Main Menu");
-        mainMenuJButton.setActionCommand("Return to main menu");
-        mainMenuJButton.addActionListener(this);
-
-        generatePlantsPanel();
-
-
-        frame.add(plantsPanel);
-        plantsPanel.setVisible(true);
-        mainMenu.setVisible(false);
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        if (e.getValueIsAdjusting() == false) {
+            if (list.getSelectedIndex() == -1) {
+                removeButton.setEnabled(false);
+            } else {
+                removeButton.setEnabled(true);
+                updatePlantInfo(listModel.get(list.getSelectedIndex()));
+            }
+        }
     }
 
-    private void generatePlantsPanel() {
-        plantsPanel = new JPanel();
-        Font plantsFont = new Font("Arial", Font.PLAIN, 12);
-        JScrollPane scrollPane = new JScrollPane(plantsLabel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    private void updatePlantInfo(String plantName) {
+        for (Plant p: plantList.getPlants()) {
+            if (p.getPlantName().equals(plantName)) {
+                JTextArea plantInfo = new JTextArea("\nPlant Name: " + p.getPlantName()
+                        + "\nPlant Type: " + p.getPlantType()
+                        + "\nPlant Status: " + p.getPlantStatus()
+                        + "\nWater Amount: " + p.getPlantWater()
+                        + "\nWatered Today? " + p.getWatered());
+                splitPane.setRightComponent(plantInfo);
 
-        plantsPanel.setFont(plantsFont);
-        plantsPanel.add(scrollPane);
-
-        JButton mainMenuJButton = returnToMainMenuButton();
-        addButton(mainMenuJButton, plantsPanel);
+            }
+        }
     }
 
-
-
-    public JButton returnToMainMenuButton() {
-        JButton mainMenuJButton = new JButton("Return to Main Menu");
-        mainMenuJButton.setActionCommand("Return to main menu");
-        mainMenuJButton.addActionListener(this);
-        return mainMenuJButton;
-    }
-
-    public void backToMainMenu() {
-        mainMenu.setVisible(true);
-        plantsPanel.setVisible(false);
-        plantInfo.setVisible(false);
-
-    }
-
-    public void addPlantToPlants() {
-        plant = new Plant(nameText.getText(), typeText.getText(), statusText.getText(),
-                Integer.parseInt(waterAmountText.getText()), Boolean.parseBoolean(wateredText.getText()));
-        plants.addPlant(plant);
-        plantsLabel.setText(plants.getListOfPlantNames());
-
-    }
-
-
-    public void removePlant(Plant plant) {
-
-    }
 
 
 }
