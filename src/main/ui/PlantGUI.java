@@ -14,6 +14,8 @@ import javax.swing.ListSelectionModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 
 public class PlantGUI extends JPanel implements ListSelectionListener {
@@ -28,6 +30,7 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
     private PlantJsonReader jsonReader;
     private PlantJsonWriter jsonWriter;
 
+    private JSplitPane splitPane;
     private JTextArea area;
     private JTextField name;
     private JTextField type;
@@ -37,20 +40,39 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
 
     private JButton addButton;
     private JButton removeButton;
-    private JSplitPane splitPane;
+
     private AddPlantListener addPlantListener;
     private RemovePlantListener removePlantListener;
+    private SaveListener saveListener;
+
+    private JMenuBar menuBar;
+    private JMenu menu;
 
 
     // EFFECTS: creates all the components of the GUI
     public PlantGUI(JFrame frame) {
         super(new BorderLayout());
-        plantList = new Plants();
+
         jsonReader = new PlantJsonReader(JSON_FILE);
         jsonWriter = new PlantJsonWriter(JSON_FILE);
-        this.frame = frame;
-        listModel = new DefaultListModel<>();
 
+        listModel = new DefaultListModel<>();
+        plantList = new Plants();
+        this.frame = frame;
+
+        menuBar = new JMenuBar();
+        menu = new JMenu("Menu");
+        JMenuItem menuItem = new JMenuItem("Save");
+        saveListener = new SaveListener();
+        menuItem.setActionCommand("Save");
+        menuItem.addActionListener(saveListener);
+        menu.add(menuItem);
+        JMenuItem menuItem1 = new JMenuItem("Load");
+        menu.add(menuItem1);
+        menuBar.add(menu);
+
+
+        frame.setJMenuBar(menuBar);
 
         createIcon();
         createSplitPlane();
@@ -294,6 +316,29 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
                 }
                 list.setSelectedIndex(index);
                 list.ensureIndexIsVisible(index);
+            }
+        }
+    }
+
+    class SaveListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            try {
+                jsonWriter.open();
+                jsonWriter.write(plantList);
+                jsonWriter.close();
+                JOptionPane.showMessageDialog(frame, "Plant List Saved");
+            } catch (IOException i) {
+                System.out.println("Unable to save " + JSON_FILE + " Json file");
+            }
+        }
+    }
+
+    class LoadListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            try {
+                plantList = jsonReader.read();
+            } catch (IOException i) {
+                System.out.println("Unable to load " + JSON_FILE);
             }
         }
     }
