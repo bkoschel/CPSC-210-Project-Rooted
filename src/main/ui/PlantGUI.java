@@ -44,6 +44,7 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
     private AddPlantListener addPlantListener;
     private RemovePlantListener removePlantListener;
     private SaveListener saveListener;
+    private LoadListener loadListener;
 
     private JMenuBar menuBar;
     private JMenu menu;
@@ -60,19 +61,7 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
         plantList = new Plants();
         this.frame = frame;
 
-        menuBar = new JMenuBar();
-        menu = new JMenu("Menu");
-        JMenuItem menuItem = new JMenuItem("Save");
-        saveListener = new SaveListener();
-        menuItem.setActionCommand("Save");
-        menuItem.addActionListener(saveListener);
-        menu.add(menuItem);
-        JMenuItem menuItem1 = new JMenuItem("Load");
-        menu.add(menuItem1);
-        menuBar.add(menu);
-
-
-        frame.setJMenuBar(menuBar);
+        createMenuBar();
 
         createIcon();
         createSplitPlane();
@@ -82,6 +71,25 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
         initializeJTextFields(addPlantListener);
         createPanel(splitPane, addButton);
 
+    }
+
+    private void createMenuBar() {
+        menuBar = new JMenuBar();
+        menu = new JMenu("Menu");
+        JMenuItem menuItem = new JMenuItem("Save");
+        saveListener = new SaveListener();
+        menuItem.setActionCommand("Save");
+        menuItem.addActionListener(saveListener);
+        menu.add(menuItem);
+
+        JMenuItem menuItem1 = new JMenuItem("Load");
+        loadListener = new LoadListener();
+        menuItem1.setActionCommand("Load");
+        menuItem1.addActionListener(loadListener);
+        menu.add(menuItem1);
+
+        menuBar.add(menu);
+        frame.setJMenuBar(menuBar);
     }
 
     private void createSplitPlane() {
@@ -337,6 +345,9 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
         public void actionPerformed(ActionEvent e) {
             try {
                 plantList = jsonReader.read();
+                for (Plant p: plantList.getPlants()) {
+                    listModel.insertElementAt(p.getPlantName(), 0);
+                }
             } catch (IOException i) {
                 System.out.println("Unable to load " + JSON_FILE);
             }

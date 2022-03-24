@@ -1,7 +1,16 @@
-{"plants": [{
-    "plantStatus": "healthy",
-    "watered": false,
-    "plantName": "Jim",
-    "plantType": "cactus",
-    "waterPerWeek": 5
-}]}
+{"plants": [
+    {
+        "plantStatus": "healthy",
+        "watered": true,
+        "plantName": "Timmy",
+        "plantType": "fern",
+        "waterPerWeek": 5
+    },
+    {
+        "plantStatus": "dead",
+        "watered": false,
+        "plantName": "Johnny",
+        "plantType": "cactus",
+        "waterPerWeek": 0
+    }
+]}
