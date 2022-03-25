@@ -2,15 +2,15 @@
     {
         "plantStatus": "ok",
         "watered": false,
-        "plantName": "Jack",
-        "plantType": "fern",
-        "waterPerWeek": 2
+        "plantName": "Molly",
+        "plantType": "cactus",
+        "waterPerWeek": 0
     },
     {
         "plantStatus": "dead",
         "watered": false,
-        "plantName": "Sparrow",
-        "plantType": "cactus",
+        "plantName": "Polly",
+        "plantType": "succulent",
         "waterPerWeek": 0
     }
 ]}

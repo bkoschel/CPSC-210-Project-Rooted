@@ -43,4 +43,16 @@ With a busy schedule it is easy to forget to water my plants.
 - As a user, I want to be able to water a plant
 - As a user, I want to be able to be able to save my plant list to a file
 - As a user, I want to be able to load my plant list from a file
-- 
+
+## User Stories: Plant GUI
+- As a user, I want to be able to use an "add" button to add plants to a plant list 
+- As a user, I want to be able to add the plants name, type of plant, water requirement per week
+- As a user, I want to be able to add the status of the plant: growing, maintaining size, dying, diseased
+- As a user, I want to be able to add if the user watered their plant or not
+- As a user, I want to be able to view the properties of a plant selected from the plant list panel
+- As a user, I want to be able to use a "remove" button to remove a plant selected from my collection 
+  from my plant list and panel
+- As a user, I want to be able to view a list of the plants by their names in a panel
+- As a user, I want to be able to be able to save the state of my plant list to a file
+- As a user, I want to be able to load the state of my plant list from a file
+

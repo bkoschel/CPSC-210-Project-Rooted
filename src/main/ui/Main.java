@@ -4,9 +4,11 @@ package ui;
 import javax.swing.*;
 import java.awt.*;
 
+// referenced ListDemo project from https://docs.oracle.com/javase/tutorial/uiswing/examples/components/index.html
+// calls the Plant App GUI and creates a new PlantApp
+
 public class Main {
 
-    // referenced ListDemo project from https://docs.oracle.com/javase/tutorial/uiswing/examples/components/index.html
     // EFFECTS: creates and shows GUI
     private static void createAndShowGUI() {
         JFrame frame = new JFrame("Rooted");
