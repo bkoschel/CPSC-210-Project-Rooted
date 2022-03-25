@@ -1,16 +1,1 @@
-{"plants": [
-    {
-        "plantStatus": "ok",
-        "watered": false,
-        "plantName": "Molly",
-        "plantType": "cactus",
-        "waterPerWeek": 0
-    },
-    {
-        "plantStatus": "dead",
-        "watered": false,
-        "plantName": "Polly",
-        "plantType": "succulent",
-        "waterPerWeek": 0
-    }
-]}
+{"plants": []}

@@ -37,8 +37,9 @@ public class Plants implements CanWrite {
 
     // REQUIRES: there must be at least one item in the list of Plants
     // MODIFIES: this
-    public void removePlant(int positionInList) {
-        myPlantCollection.remove(positionInList);
+    public void removePlant(Plant plant) {
+        myPlantCollection.remove(plant);
+
     }
 
     // EFFECTS: the size of this list is returned

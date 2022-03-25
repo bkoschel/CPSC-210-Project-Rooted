@@ -17,6 +17,7 @@ import java.util.Scanner;
 public class PlantApp {
     private static final String JSON_FILE = "./data/plantList.json";
     private Plants myPlants;
+    private Plant user;
     private Scanner input;
     private boolean exit;
     private PlantJsonWriter jsonWriter;
@@ -193,7 +194,7 @@ public class PlantApp {
         System.out.println("Which plant would you like to remove?\n"
                 + "Please enter the number associated with the plant you want to remove: ");
         position = input.nextInt();
-        myPlants.removePlant(position - 1);
+        myPlants.removePlant(user);
 
     }
 
@@ -226,7 +227,7 @@ public class PlantApp {
         System.out.println("Have you watered yor plant today?\n" + "Enter true or false");
         watered = input.nextBoolean();
 
-        Plant user = createPlant(name, type, status, water, watered);
+        user = createPlant(name, type, status, water, watered);
 
     }
 

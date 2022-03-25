@@ -374,6 +374,9 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
             int index = list.getSelectedIndex();
             listModel.remove(index);
 
+            Plant plant = plantList.getPlants().get(index);
+            plantList.removePlant(plant);
+
             int size = listModel.getSize();
 
             if (size == 0) {
@@ -386,7 +389,7 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
                 }
                 list.setSelectedIndex(index);
                 list.ensureIndexIsVisible(index);
-                plantList.removePlant(index);
+
             }
         }
     }
@@ -417,7 +420,7 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
             try {
                 plantList = jsonReader.read();
                 for (Plant p: plantList.getPlants()) {
-                    listModel.insertElementAt(p.getPlantName(), 0);
+                    listModel.insertElementAt(p.getPlantName(), listModel.size());
                 }
             } catch (IOException i) {
                 System.out.println("Unable to load " + JSON_FILE);

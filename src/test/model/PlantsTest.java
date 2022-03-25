@@ -46,10 +46,10 @@ public class PlantsTest {
         testPlants1.addPlant(testPlant2);
         assertTrue(testPlants1.containsPlant(testPlant1));
         assertTrue(testPlants1.containsPlant(testPlant2));
-        testPlants1.removePlant(1);
+        testPlants1.removePlant(testPlant2);
         assertFalse(testPlants1.containsPlant(testPlant2));
         assertTrue(testPlants1.containsPlant(testPlant1));
-        testPlants1.removePlant(0);
+        testPlants1.removePlant(testPlant1);
         assertFalse(testPlants1.containsPlant(testPlant1));
 
     }
@@ -67,10 +67,10 @@ public class PlantsTest {
     public void testGetListOfPlantNames() {
         assertEquals("", testPlants1.getListOfPlantNames());
         testPlants1.addPlant(testPlant1);
-        assertEquals("Goldie\n", testPlants1.getListOfPlantNames());
+        assertEquals("Plant Number 1: Goldie\n", testPlants1.getListOfPlantNames());
         testPlants1.addPlant(testPlant2);
-        assertEquals("Goldie\n"
-                           + "Vinny\n", testPlants1.getListOfPlantNames());
+        assertEquals("Plant Number 1: Goldie\n"
+                           + "Plant Number 2: Vinny\n", testPlants1.getListOfPlantNames());
     }
 
 
