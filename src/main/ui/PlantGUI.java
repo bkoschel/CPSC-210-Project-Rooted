@@ -145,7 +145,7 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
 
         JLabel nameLabel = new JLabel("Plant Name");
         nameLabel.setFont(labelFont);
-        JLabel typeLabel = new JLabel("Plant Type (fern, cactus, etc");
+        JLabel typeLabel = new JLabel("Plant Type (fern, cactus, etc)");
         typeLabel.setFont(labelFont);
         JLabel statusLabel = new JLabel("Status (healthy, dead, ok)");
         statusLabel.setFont(labelFont);
