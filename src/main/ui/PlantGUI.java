@@ -1,5 +1,7 @@
 package ui;
 
+import model.EventLog;
+import model.Event;
 import model.Plant;
 import model.Plants;
 import persistence.PlantJsonReader;
@@ -14,6 +16,8 @@ import javax.swing.ListSelectionModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 // referenced ListDemo/MenuDemo/ButtonMenu/IconDemo/TextFieldDemo/TextAreaDemo/SplitPaneDemo
@@ -64,8 +68,18 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
         initializeAddButton();
         initializeJTextFields();
         createPanel(splitPane);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                for (Event el: EventLog.getInstance()) {
+                    System.out.println(el.getDescription());
+                }
+            }
+        });
 
     }
+
+
 
     // MODIFIES: this
     // EFFECTS: creates the menu bar and menu items and initiates the save and load
@@ -92,6 +106,7 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
 
         menuBar.add(menu);
         frame.setJMenuBar(menuBar);
+
     }
 
     // MODIFIES: this
@@ -485,5 +500,6 @@ public class PlantGUI extends JPanel implements ListSelectionListener {
         gifFrame.setLocationRelativeTo(null);
         gifFrame.setVisible(true);
     }
+
 
 }

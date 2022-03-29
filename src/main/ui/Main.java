@@ -1,6 +1,9 @@
 package ui;
 
 
+import model.Event;
+import model.EventLog;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -23,6 +26,7 @@ public class Main {
         frame.pack();
         frame.setVisible(true);
     }
+
 
     public static void main(String[] args) {
         // creates a job for the event-dispatcher thread;

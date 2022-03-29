@@ -28,7 +28,10 @@ public class Plants implements CanWrite {
     // MODIFIES: this
     public void addPlant(Plant plant) {
         myPlantCollection.add(plant);
+        EventLog.getInstance().logEvent(new Event("Plant " + plant.getPlantName()
+                + " was added to the plant list"));
     }
+
 
     // EFFECTS: returns a list of plants to the Plants Class; the list is unmodifiable
     public List<Plant> getPlants() {
@@ -39,7 +42,8 @@ public class Plants implements CanWrite {
     // MODIFIES: this
     public void removePlant(Plant plant) {
         myPlantCollection.remove(plant);
-
+        EventLog.getInstance().logEvent(new Event("Plant " + plant.getPlantName()
+                + " was removed from the plant list"));
     }
 
     // EFFECTS: the size of this list is returned
@@ -74,6 +78,8 @@ public class Plants implements CanWrite {
         json.put("plants", plantsToJson());
         return json;
     }
+
+
 
     //EFFECTS: returns a JSON array of plants in the list of plants
     // plantsToJson was inspired by thingiesToJson in the JsonSerializationDemo provided by CPSC 210
