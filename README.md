@@ -56,3 +56,12 @@ With a busy schedule it is easy to forget to water my plants.
 - As a user, I want to be able to be able to save the state of my plant list to a file
 - As a user, I want to be able to load the state of my plant list from a file
 
+##Phase 4: Task 2
+
+Plant called Tommy was added to the plant list
+
+Plant called Jimmy was added to the plant list
+
+Plant called Jimmy was removed from the plant list
+
+Plant called Tommy was removed from the plant list

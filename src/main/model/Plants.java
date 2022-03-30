@@ -28,7 +28,7 @@ public class Plants implements CanWrite {
     // MODIFIES: this
     public void addPlant(Plant plant) {
         myPlantCollection.add(plant);
-        EventLog.getInstance().logEvent(new Event("Plant " + plant.getPlantName()
+        EventLog.getInstance().logEvent(new Event("Plant called " + plant.getPlantName()
                 + " was added to the plant list"));
     }
 
@@ -42,7 +42,7 @@ public class Plants implements CanWrite {
     // MODIFIES: this
     public void removePlant(Plant plant) {
         myPlantCollection.remove(plant);
-        EventLog.getInstance().logEvent(new Event("Plant " + plant.getPlantName()
+        EventLog.getInstance().logEvent(new Event("Plant called " + plant.getPlantName()
                 + " was removed from the plant list"));
     }
 
