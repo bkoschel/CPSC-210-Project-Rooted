@@ -65,3 +65,14 @@ Plant called Jimmy was added to the plant list
 Plant called Jimmy was removed from the plant list
 
 Plant called Tommy was removed from the plant list
+
+##Phase 4: Task 3
+
+To improve the design of my project, I would:
+
+- Remove repetitive code within my PlantGUI class. I would create helper functions to deal with the repetitiveness of 
+  the qualities shared by every Plant in the Plants list such as name, type, status, amount watered and watered or not.
+- Move the private classes within the PlantGUI to their own separate classes. This would increase the cohesiveness of 
+  the PlantGUI class.
+- Make sure a single method within the PlantGUI was performing only one task. The constructPlantLabels() method for 
+  instance is doing many things. This would ensure adherence to the single responsibility principles.
